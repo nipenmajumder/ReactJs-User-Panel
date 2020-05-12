@@ -1,3 +1,7 @@
+.loaderAnimation {
+  width: 180px;
+  height: 180px;
+}
 .topFixedBanner {
   background-image: url("../image/banner.jpg");
   min-height: 500px;
@@ -236,7 +240,7 @@
 }
 .socialLink {
   text-decoration: none;
-  color: #0073e6 !important;
+  color: #0073e6;
   font-family: "Raleway", sans-serif;
   font-size: 14px;
   font-weight: 600;

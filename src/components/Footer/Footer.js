@@ -6,7 +6,7 @@ import { faFacebook, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
-
+import Loading from "../Loading/loading";
 export default class Footer extends Component {
   constructor() {
     super();
@@ -17,6 +17,8 @@ export default class Footer extends Component {
       facebook: "",
       youtube: "",
       footer_credit: "",
+      loaderClass: "text-center",
+      mainDivClass: "d-none",
     };
   }
   componentDidMount() {
@@ -28,6 +30,8 @@ export default class Footer extends Component {
         facebook: result[0]["facebook"],
         youtube: result[0]["youtube"],
         footer_credit: result[0]["footer_credit"],
+        loaderClass: "d-none",
+        mainDivClass: "p-5 text-justify",
       });
     });
   }
@@ -38,26 +42,39 @@ export default class Footer extends Component {
           <Row>
             <Col lg={3} md={6} sm={12} className="p-5 text-justify">
               <h1 className="serviceName">Follow Me</h1>
-
-              <a className="socialLink" herf="#">
+              <a
+                className="socialLink"
+                target="_blank"
+                herf={"//" + this.state.facebook}
+              >
                 <FontAwesomeIcon icon={faFacebook} /> Facebook
               </a>
               <br />
-
-              <a className="socialLink" herf="#">
+              <a
+                className="socialLink"
+                target="_blank"
+                herf={"//" + this.state.youtube}
+              >
                 <FontAwesomeIcon icon={faYoutube} /> YouTube
               </a>
             </Col>
-            <Col lg={3} md={6} sm={12} className="p-5 text-justify">
+
+            <Col lg={3} md={6} sm={12} className={this.state.loaderClass}>
+              <h1 className="serviceName">Address</h1>
+              <Loading />
+            </Col>
+
+            <Col lg={3} md={6} sm={12} className={this.state.mainDivClass}>
               <h1 className="serviceName">Address</h1>
               <p className="serviceDescription">{this.state.address}</p>
               <p className="serviceDescription">
-                <FontAwesomeIcon icon={faEnvelope} /> {this.state.email}{" "}
+                <FontAwesomeIcon icon={faEnvelope} /> {this.state.email}
               </p>
               <p className="serviceDescription">
                 <FontAwesomeIcon icon={faPhone} /> {this.state.phone}
               </p>
             </Col>
+
             <Col lg={3} md={6} sm={12} className="p-5 text-justify">
               <h1 className="serviceName">Information</h1>
               <Link className="footerLink" to="/about">

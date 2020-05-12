@@ -5,6 +5,12 @@ import AllCourses from "../components/All Courses/AllCourses";
 import Footer from "../components/Footer/Footer";
 
 export default class CoursesPage extends Component {
+  constructor({ match }) {
+    super();
+    this.state = {
+      coursePassedID: match.params.courseId,
+    };
+  }
   componentDidMount() {
     window.scroll(0, 0);
   }
@@ -13,7 +19,7 @@ export default class CoursesPage extends Component {
       <Fragment>
         <TopNavigation title="Courses" />
         <PageTop />
-        <AllCourses />
+        <AllCourses id={this.state.coursePassedID} />
         <Footer />
       </Fragment>
     );

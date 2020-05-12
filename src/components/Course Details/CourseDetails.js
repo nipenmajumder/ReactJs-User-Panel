@@ -1,8 +1,32 @@
 import React, { Component, Fragment } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Player, BigPlayButton } from "video-react";
+import ReactHtmlParser from "react-html-parser";
+import Loading from "../Loading/loading";
 export default class CourseDetails extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    let LongTitle: "";
+    let TotalLecture: "";
+    let TotalStudent: "";
+    let LongDes: "";
+    let SkillAll: "";
+    let VideoUrl: "";
+    let CourseLink: "";
+
+    let CourseDetailsArray = this.props.CourseData;
+    if (CourseDetailsArray.length == 1) {
+      LongTitle = CourseDetailsArray[0]["long_title"];
+      TotalLecture = CourseDetailsArray[0]["total_lecture"];
+      TotalStudent = CourseDetailsArray[0]["total_student"];
+      LongDes = CourseDetailsArray[0]["long_des"];
+      SkillAll = CourseDetailsArray[0]["skill_all"];
+      VideoUrl = CourseDetailsArray[0]["video_url"];
+      CourseLink = CourseDetailsArray[0]["course_link"];
+    }
+
     return (
       <Fragment>
         <Container fluid={true} className="topFixedPage p-0">
@@ -10,23 +34,12 @@ export default class CourseDetails extends Component {
             <Container className="topPageContentCourse ">
               <Row>
                 <Col sm={12} md={6} lg={6}>
-                  <h3 className="courseFullTitle">
-                    Full Dynamic Website With Admin Panel
-                  </h3>
-                  <h5 className="courseSubTitle">Total Lecture-30</h5>
-                  <h5 className="courseSubTitle">Total Student-30</h5>
+                  <h3 className="courseFullTitle">{LongTitle}</h3>
+                  <h5 className="courseSubTitle">{TotalLecture}</h5>
+                  <h5 className="courseSubTitle">{TotalStudent}</h5>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
-                  <p className="courseDescription">
-                    I am a highly talented, experienced, professional and
-                    cooperative software engineer, I am working in programming
-                    and web world for more than 4 years .I assure you a wide
-                    range of quality IT services. Web development, mobile app
-                    development and UI design the major filed i am expert in.
-                    Moreover i have teaching passion. I makes video tutorial to
-                    share my knowledge. My over all skill makes me a complete
-                    software developer, so you can hire me for your projects.
-                  </p>
+                  <p className="courseDescription">{LongDes}</p>
                 </Col>
               </Row>
             </Container>
@@ -36,34 +49,14 @@ export default class CourseDetails extends Component {
           <Row>
             <Col sm={12} md={6} lg={6}>
               <h1 className="serviceName">Skill You Get</h1>
-              <ul>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
-                <li className="serviceDescription">
-                  Unlimited Dynamic Product Category
-                </li>
+              <ul className="serviceDescription">
+                {ReactHtmlParser(SkillAll)}
               </ul>
               <Button variant="primary">Buy Now</Button>
             </Col>
             <Col sm={12} md={6} lg={6}>
               <Player>
-                <source src="https://www.youtube.com/watch?v=B3zK9ZgYmsM" />
+                <source src={VideoUrl} />
                 <BigPlayButton position="center" />
               </Player>
             </Col>
