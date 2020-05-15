@@ -5,6 +5,7 @@ import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class ContactSection extends Component {
   constructor() {
     super();
@@ -13,16 +14,21 @@ export default class ContactSection extends Component {
       email: "",
       phone: "",
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
     RestClient.GetRequest(AppUrl.Footer).then((result) => {
-      this.setState({
-        address: result[0]["address"],
-        email: result[0]["email"],
-        phone: result[0]["phone"],
-        loading: false,
-      });
+      if (result == null) {
+        this.setState({ error: true, loading: false });
+      } else {
+        this.setState({
+          address: result[0]["address"],
+          email: result[0]["email"],
+          phone: result[0]["phone"],
+          loading: false,
+        });
+      }
     });
   }
   sendContact() {
@@ -38,12 +44,15 @@ export default class ContactSection extends Component {
       })
       .catch((error) => {
         alert("Error");
+      })
+      .catch((error) => {
+        this.setState({ error: true });
       });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       return (
         <Fragment>
           <Container className="mt-5">
@@ -86,6 +95,8 @@ export default class ContactSection extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

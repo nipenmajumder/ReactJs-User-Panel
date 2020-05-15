@@ -5,6 +5,7 @@ import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import ReactHtmlParser from "react-html-parser";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class Analysis extends Component {
   constructor() {
     super();
@@ -12,20 +13,40 @@ export default class Analysis extends Component {
       data: [],
       desc: "..",
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
-    RestClient.GetRequest(AppUrl.ChartData).then((result) => {
-      this.setState({ data: result });
-    });
-    RestClient.GetRequest(AppUrl.TechDesc).then((result) => {
-      this.setState({ desc: result[0]["tech_description"], loading: false });
-    });
+    RestClient.GetRequest(AppUrl.ChartData)
+      .then((result) => {
+        if (result == null) {
+          this.setState({ error: true, loading: false });
+        } else {
+          this.setState({ data: result, loading: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+      });
+    RestClient.GetRequest(AppUrl.TechDesc)
+      .then((result) => {
+        if (result == null) {
+          this.setState({ error: true });
+        } else {
+          this.setState({
+            desc: result[0]["tech_description"],
+            loading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+      });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       var blue = "rgba(0, 115, 230, 0.8)";
       return (
         <Fragment>
@@ -55,6 +76,8 @@ export default class Analysis extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

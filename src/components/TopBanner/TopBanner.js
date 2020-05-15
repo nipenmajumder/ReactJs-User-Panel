@@ -3,6 +3,8 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
+
 export default class TopBanner extends Component {
   constructor() {
     super();
@@ -11,22 +13,32 @@ export default class TopBanner extends Component {
       subtitle: "",
       loaderClass: "text-center",
       mainDivClass: "d-none",
+      WentWrong: "d-none",
     };
   }
   componentDidMount() {
     RestClient.GetRequest(AppUrl.HomeTopTitle)
       .then((result) => {
-        this.setState({
-          title: result[0]["home_title"],
-          subtitle: result[0]["home_subtitle"],
-          loaderClass: "d-none",
-          mainDivClass: "text-center",
-        });
+        if (result == null) {
+          this.setState({
+            loaderClass: "d-none",
+            mainDivClass: "d-none",
+            WentWrong: "text-center",
+          });
+        } else {
+          this.setState({
+            title: result[0]["home_title"],
+            subtitle: result[0]["home_subtitle"],
+            loaderClass: "d-none",
+            mainDivClass: "text-center",
+          });
+        }
       })
       .catch((error) => {
         this.setState({
-          title: "???",
-          subtitle: "???",
+          loaderClass: "d-none",
+          mainDivClass: "d-none",
+          WentWrong: "text-center",
         });
       });
   }
@@ -37,6 +49,9 @@ export default class TopBanner extends Component {
           <div className="topBannerOverlay">
             <Container className="topContent">
               <Row>
+                <Col className={this.state.WentWrong}>
+                  <WentWrong />
+                </Col>
                 <Col className={this.state.loaderClass}>
                   <Loading />
                 </Col>

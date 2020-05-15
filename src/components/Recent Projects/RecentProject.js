@@ -5,23 +5,29 @@ import { Link } from "react-router-dom";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class RecentProject extends Component {
   constructor() {
     super();
     this.state = {
       myData: [],
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
     RestClient.GetRequest(AppUrl.Project).then((result) => {
-      this.setState({ myData: result, loading: false });
+      if (result == null) {
+        this.setState({ error: true, loading: false });
+      } else {
+        this.setState({ myData: result, loading: false });
+      }
     });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       const myList = this.state.myData;
       const myView = myList.map((myList) => {
         return (
@@ -63,6 +69,8 @@ export default class RecentProject extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

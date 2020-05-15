@@ -1,0 +1,109 @@
+@media (max-width: 575.98px) {
+  .topTitle {
+    font-size: 28px;
+  }
+  .topSubTitle {
+    font-size: 16px;
+  }
+  .serviceMainTitle {
+    font-size: 22px;
+  }
+  .loaderAnimation {
+    width: 100px;
+    height: 100px;
+  }
+  .serviceName {
+    font-size: 18px;
+  }
+  .countNumber {
+    font-size: 32px;
+  }
+  .countTitle {
+    font-size: 16px;
+  }
+  .countSection {
+    margin-top: 10%;
+  }
+  .workCard {
+    margin-top: 5%;
+    padding: 5px 5px 5px 5px;
+    border-radius: 2px;
+  }
+
+  .summeryBanner {
+    min-height: 460px;
+  }
+  .summeryBannerOverlay {
+    min-height: 460px;
+  }
+  .videoCard {
+    padding: 2rem 2rem 2rem 2rem;
+    margin: 30px auto;
+  }
+  .videoDes {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .topTitle {
+    font-size: 36px;
+  }
+  .topSubTitle {
+    font-size: 18px;
+  }
+  .serviceMainTitle {
+    font-size: 24px;
+  }
+  .loaderAnimation {
+    width: 120px;
+    height: 120px;
+  }
+  .serviceName {
+    font-size: 18px;
+  }
+  .countNumber {
+    font-size: 32px;
+  }
+  .countTitle {
+    font-size: 16px;
+  }
+  .countSection {
+    margin-top: 10%;
+  }
+  .workCard {
+    margin-top: 5%;
+    padding: 5px 5px 5px 5px;
+    border-radius: 2px;
+  }
+  .summeryBanner {
+    min-height: 460px;
+  }
+  .summeryBannerOverlay {
+    min-height: 460px;
+  }
+  .videoCard {
+    padding: 2rem 2rem 2rem 2rem;
+    margin: 30px auto;
+  }
+  .videoDes {
+    font-size: 14px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .countNumber {
+    font-size: 36px;
+  }
+  .countTitle {
+    font-size: 17px;
+  }
+  .countSection {
+    margin-top: 35%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+@media (min-width: 1200px) {
+}

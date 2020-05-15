@@ -4,32 +4,42 @@ import { Link } from "react-router-dom";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class AllCourses extends Component {
   constructor() {
     super();
     this.state = {
       myData: [],
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
-    RestClient.GetRequest(AppUrl.CourseAll).then((result) => {
-      this.setState({ myData: result, loading: false });
-    });
+    RestClient.GetRequest(AppUrl.CourseAll)
+      .then((result) => {
+        if (result == null) {
+          this.setState({ error: true, loading: false });
+        } else {
+          this.setState({ myData: result, loading: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+      });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       const myList = this.state.myData;
       const myView = myList.map((myList) => {
         return (
           <Col lg={6} md={12} sm={12} className="p-2">
-            <Row>
-              <Col lg={6} md={6} sm={12}>
+            <Row className="p-3">
+              <Col className="p-2" lg={6} md={6} sm={12}>
                 <img className="courseImg" src={myList.short_img} />
               </Col>
-              <Col lg={6} md={6} sm={12}>
+              <Col className="p-2" lg={6} md={6} sm={12}>
                 <h5 className=" courseTitle text-justify">
                   {myList.short_title}
                 </h5>
@@ -53,6 +63,8 @@ export default class AllCourses extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

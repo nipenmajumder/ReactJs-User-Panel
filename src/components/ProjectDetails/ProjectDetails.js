@@ -4,6 +4,7 @@ import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import ReactHtmlParser from "react-html-parser";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class projectDetails extends Component {
   constructor(props) {
     super();
@@ -15,26 +16,33 @@ export default class projectDetails extends Component {
       img_two: "",
       project_name: "",
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
     RestClient.GetRequest(AppUrl.ProjectDetails + this.state.myProjectID)
       .then((result) => {
-        this.setState({
-          short_description: result[0]["short_description"],
-          project_features: result[0]["project_features"],
-          live_preview: result[0]["live_preview"],
-          img_two: result[0]["img_two"],
-          project_name: result[0]["project_name"],
-          loading: false,
-        });
+        if (result == null) {
+          this.setState({ error: true, loading: false });
+        } else {
+          this.setState({
+            short_description: result[0]["short_description"],
+            project_features: result[0]["project_features"],
+            live_preview: result[0]["live_preview"],
+            img_two: result[0]["img_two"],
+            project_name: result[0]["project_name"],
+            loading: false,
+          });
+        }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        this.setState({ error: true });
+      });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       return (
         <Fragment>
           <Container className="mt-5">
@@ -56,6 +64,8 @@ export default class projectDetails extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

@@ -6,23 +6,33 @@ import Slider from "react-slick";
 import AppUrl from "../../RestApi/AppUrl";
 import RestClient from "../../RestApi/RestClient";
 import Loading from "../Loading/loading";
+import WentWrong from "../WentWrong/WentWrong";
 export default class Review extends Component {
   constructor() {
     super();
     this.state = {
       myData: [],
       loading: true,
+      error: false,
     };
   }
   componentDidMount() {
-    RestClient.GetRequest(AppUrl.ClientReview).then((result) => {
-      this.setState({ myData: result, loading: false });
-    });
+    RestClient.GetRequest(AppUrl.ClientReview)
+      .then((result) => {
+        if (result == null) {
+          this.setState({ error: true, loading: false });
+        } else {
+          this.setState({ myData: result, loading: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+      });
   }
   render() {
     if (this.state.loading == true) {
       return <Loading />;
-    } else {
+    } else if (this.state.error == false) {
       const myList = this.state.myData;
       const myView = myList.map((myList) => {
         return (
@@ -84,6 +94,8 @@ export default class Review extends Component {
           </Container>
         </Fragment>
       );
+    } else if (this.state.error == true) {
+      return <WentWrong />;
     }
   }
 }

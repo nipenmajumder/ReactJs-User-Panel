@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
-import "../../asset/css/custom.css";
-import "../../asset/css/bootstrap.min.css";
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-
+import "../../asset/css/custom.css";
+import "../../asset/css/bootstrap.min.css";
+import "../../asset/css/responsive.css";
 export default class TopNavigation extends Component {
   constructor(props) {
     super();
@@ -48,7 +48,9 @@ export default class TopNavigation extends Component {
           collapseOnSelect
           expand="lg"
         >
-          <Navbar.Brand className={this.state.navBarTitle}>Kibo</Navbar.Brand>
+          <Navbar.Brand className={this.state.navBarTitle}>
+            Nipen Majumder
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto"></Nav>
